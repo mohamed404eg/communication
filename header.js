@@ -131,7 +131,7 @@ async function login() {
       <img class="imgProfile" src="" alt="" srcset="">
       <li class="nav-item" >
   
-                <a href="#"><button onclick="Logout();clickADDcomment()" type="button" class="btn btn-danger" 
+                <a href="#"><button onclick="Logout();clickADDcommentHEADER()" type="button" class="btn btn-danger" 
                     data-bs-target="#exampleModal" class="LogoutBtn">
                     logout
                   </button></a>
@@ -183,3 +183,9 @@ async function login() {
   // ui \\
       
   
+function clickADDcommentHEADER() {
+  if (clickADDcomment() != null) {
+    clickADDcomment()
+  }
+
+}

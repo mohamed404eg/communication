@@ -98,20 +98,6 @@ function clickADDcomment(s) {
 }
 
 
-
-       // clicked logout remove comment
-    let LogoutBtn = document.querySelector(".LogoutBtn")
-    console.log(LogoutBtn)
-
-
-
-
-
-
-    
-
-
-
 async function sendComment(postId) {
   let token = localStorage.getItem("token");
   let commentValue = document.getElementById("commentValue").value;
