@@ -129,10 +129,10 @@ async function login() {
   
       <li class="nav-item"> 
       <img class="imgProfile" src="" alt="" srcset="">
-      <li class="nav-item">
+      <li class="nav-item" >
   
-                <a href="#"><button onclick="Logout()" type="button" class="btn btn-danger" 
-                    data-bs-target="#exampleModal">
+                <a href="#"><button onclick="Logout();clickADDcomment()" type="button" class="btn btn-danger" 
+                    data-bs-target="#exampleModal" class="LogoutBtn">
                     logout
                   </button></a>
               </li>
@@ -148,6 +148,8 @@ async function login() {
       if (document.querySelector("#addPost") != null) {
         document.querySelector("#addPost").style.display = "block";
       }
+
+
       SETimgProfile();
     } else {
       uiLogin.innerHTML = `
@@ -172,8 +174,12 @@ async function login() {
         document.querySelector("#addPost").style.display = "none";
       }
     }
+     
+    
+    
   }
   window.addEventListener("DOMContentLoaded", ui);
   
   // ui \\
+      
   
