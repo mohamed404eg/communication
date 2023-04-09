@@ -1,3 +1,5 @@
+let usrlocal = localStorage.getItem("user")
+
 // infinity get scroll
 let currentPage = 1;
 let lastPage = 1;
@@ -12,35 +14,51 @@ function getPosts(currentPage) {
       lastPage = response.meta.last_page;
       // add to div posts
       let posts = document.getElementsByClassName("posts");
+
+
+
       // for of posts
       for (post of response.data) {
         let postadd = `
-            <div class="post mt-4" onclick='clickedPost(${post.id})'>
-                <div class="card text-center">
-                    <div class="card-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                          </svg>
+            <div class="post mt-4" >
+                <div class="card text-center ">
+                    <div class="card-header align-items-center d-flex justify-content-between">
+                    <div><img class="imgProfile" src="${post.image}">
                           <span>${post.author.username}</span>
+                    </div>
+                        
+                          <div class="PostEdit btn btn-secondary float-end" data-bs-toggle="modal" data-bs-target="#CreatePost" onclick="EditPost('${encodeURIComponent(
+                            JSON.stringify(post)
+                          )}')"> Edit Post <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          </svg></div>
                           </div>
-                    <div class="card-body">
+                    <div class="card-body" onclick='clickedPost(${post.id})'>
                         <img class="w-50" src="${post.image}" alt="">
                       <h5 class="card-title mt-3">Special title treatment</h5>
                       <p class="card-text">${post.body}</p>
-                      <a href="#" class="btn btn-secondary"> <span>(${post.comments_count})</span> Comments <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <a href="#" class="btn btn-secondary"> <span>(${
+                        post.comments_count
+                      })</span> Comments <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg></a>
+
+                      
+                       
                         </div>
+                    
                         <div class="card-footer text-body-secondary">
                      ${post.created_at}
                     </div>
+                    
                   </div>
             </div>
 
     `;
         posts[0].innerHTML += postadd;
+        btneditpost()
       }
     });
 }
@@ -111,6 +129,7 @@ async function creatPostModal() {
       let posts = document.getElementsByClassName("posts");
       posts[0].innerHTML = "";
       getPosts();
+     
     }
   } catch (error) {
     // handle error
@@ -130,3 +149,34 @@ function clickedPost(postId) {
   window.location = `./postview.html?postId=${postId}`;
 }
 // clicked post \\
+
+// Edit Post
+
+function EditPost(informationPost) {
+  post = JSON.parse(decodeURIComponent(informationPost));
+  console.log(post);
+
+  document.getElementById("post-modal-title").innerHTML = "Edit Post";
+  document.getElementById("post-title").value = post.title;
+  document.getElementById("posTtext").value = post.body;
+  document.getElementById("post-modal-btn").innerHTML = "Edit";
+}
+
+
+// btn edit post view or no
+function btneditpost() {
+  if (localStorage.getItem("token") == null) {
+    let PostEdit = document.getElementsByClassName("PostEdit");
+    for (let i = 0; i < PostEdit.length; i++) {
+      PostEdit[i].style.display = "none"; // تعيين خاصية العرض للعنصر الحالي للقيمة "none"
+    }
+  } else {
+    let PostEdit = document.getElementsByClassName("PostEdit");
+    for (let i = 0; i < PostEdit.length; i++) {
+      PostEdit[i].style.display = "block"; // تعيين خاصية العرض للعنصر الحالي للقيمة "none"
+    }
+  }
+}
+
+
+// btn edit post view or no \\

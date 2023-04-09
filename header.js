@@ -122,7 +122,11 @@ async function login() {
     document.querySelector(".imgProfile").src = `${userLOCAL.profile_image}`;
   }
   
-  function ui() {
+function ui() {
+    // btn edit post view or no in home page
+    btneditpost() 
+    // btn edit post view or no in home page \\
+  
     const uiLogin = document.querySelector(".uiLogin");
     if (localStorage.getItem("token")) {
       uiLogin.innerHTML = `
@@ -131,8 +135,8 @@ async function login() {
       <img class="imgProfile" src="" alt="" srcset="">
       <li class="nav-item" >
   
-                <a href="#"><button onclick="Logout();clickADDcommentHEADER()" type="button" class="btn btn-danger" 
-                    data-bs-target="#exampleModal" class="LogoutBtn">
+                <a href="#"><button onclick="Logout();clickADDcommentHEADER()" type="button" class="btn btn-danger LogoutBtn" 
+                    data-bs-target="#exampleModal" >
                     logout
                   </button></a>
               </li>

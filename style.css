@@ -12,7 +12,9 @@
 .required{
     color: red;
 }
-
+.post {
+    cursor: pointer;
+}
 
 /* create post  */
 #posTtext {

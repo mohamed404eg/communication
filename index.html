@@ -122,11 +122,11 @@ height: 40px;
   </div>
   <!-- register \\-->
       <!-- creat post -->
-  <div class="modal fade" id="creatPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="CreatePost" tabindex="-1" aria-labelledby="CreatePost" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">New Post</h1>
+          <h1 class="modal-title fs-5" id="post-modal-title">New Post</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -150,7 +150,7 @@ height: 40px;
           <button type="button" class="btn btn-secondary btnPostClose" data-bs-dismiss="modal">
             Close
           </button>
-          <button onclick="creatPostModal()" type="button" class="btn btn-primary">Create</button>
+          <button onclick="creatPostModal()" type="button" class="btn btn-primary" id="post-modal-btn">Create</button>
         </div>
       </div>
     </div>
