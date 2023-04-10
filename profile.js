@@ -28,7 +28,7 @@ console.log(usrlocalID)
         
 
         // info user
-
+console.log(usrlocal.profile_image)
 // img
 let profile_image = document.getElementsByClassName("user-img")
 profile_image[0].src = usrlocal.profile_image;
@@ -73,9 +73,7 @@ function getPosts() {
    
       // for of posts
       for (post of response.data) {
-        console.log(post.author.id )
-        console.log( usrlocal.id)
-        console.log(post.author.id == usrlocal.id)
+        loader(false)
         // innerHTML EditPost
         if (usrlocal != null) {
           if (post.author.id == usrlocal.id) {
@@ -106,7 +104,7 @@ function getPosts() {
             <div class="post mt-4" >
                 <div class="card text-center ">
                     <div class="card-header align-items-center d-flex justify-content-between" >
-                    <div onclick='clickedPost(${post.id})'><img class="imgProfile" src="${post.image}">
+                    <div onclick='clickedPost(${post.id})'><img class="imgProfile" src="${post.author.profile_image}">
                           <span>${post.author.username}</span>
                     </div>
                         

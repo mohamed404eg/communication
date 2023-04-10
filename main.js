@@ -14,6 +14,7 @@ function getPosts(currentPage) {
       return response.json();
     })
     .then((response) => {
+      loader(false)
       lastPage = response.meta.last_page;
       // add to div posts
       let posts = document.getElementsByClassName("posts");
@@ -47,12 +48,11 @@ function getPosts(currentPage) {
           }
         }
         // innerHTML EditPost\\
-
         let postadd = `
             <div class="post mt-4" >
                 <div class="card text-center ">
                     <div class="card-header align-items-center d-flex justify-content-between" >
-                    <div onclick='clickedUser(${post.author.id})'><img class="imgProfile" src="${post.image}">
+                    <div onclick='clickedUser(${post.author.id})'><img class="imgProfile" src="${post.author.profile_image}">
                           <span>${post.author.username}</span>
                     </div>
                         

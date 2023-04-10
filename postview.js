@@ -9,6 +9,7 @@ function getPosts(postId) {
       return response.json();
     })
     .then((response) => {
+      loader(false)
       // add to div posts
       let postclass = document.getElementsByClassName("post");
       let post = response.data;
