@@ -153,7 +153,7 @@ async function creatPostModal(edit,postId) {
       console.log(data);
       appendAlert("Nice, has been created post Successfully !", "success");
       // close model
-      var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('myModalId'));
+      var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('CreatePost'));
       myModal.hide();
       // get nwe post
       // clear post befor get

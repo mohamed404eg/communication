@@ -1,8 +1,8 @@
 // global
 let usrlocal = JSON.parse(localStorage.getItem("user"));
+let usrlocalID;
 if (usrlocal != null) {
-  
-  let usrlocalID = usrlocal.id;
+  usrlocalID = usrlocal.id;
 }
 // global \\
 
@@ -12,9 +12,10 @@ let iduser = new URLSearchParams(window.location.search);
 let userId = iduser.get("userId");
 if (userId != null) {
   usrlocalID = userId
+
 }
 
-
+console.log(usrlocalID)
   // get post one load page
  function getuser() {
     fetch(`https://tarmeezacademy.com/api/v1/users/${usrlocalID}`)
@@ -60,7 +61,7 @@ comments_count[0].innerHTML = usrlocal.comments_count;
 
 // get post one load page
 function getPosts() {
-  fetch(`https://tarmeezacademy.com/api/v1/users/${userId}/posts`)
+  fetch(`https://tarmeezacademy.com/api/v1/users/${usrlocalID}/posts`)
     .then((response) => {
       return response.json();
     })
@@ -69,9 +70,12 @@ function getPosts() {
       let posts = document.getElementsByClassName("posts");
 
       let PostEditHTML = ``
-
+   
       // for of posts
       for (post of response.data) {
+        console.log(post.author.id )
+        console.log( usrlocal.id)
+        console.log(post.author.id == usrlocal.id)
         // innerHTML EditPost
         if (usrlocal != null) {
           if (post.author.id == usrlocal.id) {
@@ -133,9 +137,22 @@ function getPosts() {
     `;
         posts[0].innerHTML += postadd;
         btneditpost()
+        if (userId != null) {
+          usrlocalID = userId
+        
+        
+          // edit and delete none
+          document.querySelector(".PostEdit").display = "none";
+        }
+
+        
       }
+
     });
 }
+
+
+
 
 window.addEventListener("DOMContentLoaded",getPosts)
 
@@ -243,7 +260,16 @@ function btneditpost() {
       PostEdit[i].style.display = "block"; // تعيين خاصية العرض للعنصر الحالي للقيمة "none"
     }
   }
+
+  if (userId != null) {
+    let PostEdit = document.getElementsByClassName("PostEdit");
+    for (let i = 0; i < PostEdit.length; i++) {
+      PostEdit[i].style.display = "none"; // تعيين خاصية العرض للعنصر الحالي للقيمة "none"
+    }
+
+  }
 }
+
 
 
 // btn delete post view or no 
