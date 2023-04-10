@@ -1,6 +1,9 @@
 // global
 let usrlocal = JSON.parse(localStorage.getItem("user"));
-let usrlocalID = usrlocal.id;
+if (usrlocal != null) {
+  
+  let usrlocalID = usrlocal.id;
+}
 // global \\
 
 
