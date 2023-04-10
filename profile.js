@@ -1,20 +1,67 @@
 // global
 let usrlocal = JSON.parse(localStorage.getItem("user"));
+let usrlocalID = usrlocal.id;
 // global \\
 
-// infinity get scroll
-let currentPage = 1;
-let lastPage = 1;
-let urluser = "";
+
+// Get id user query an url
+let iduser = new URLSearchParams(window.location.search);
+let userId = iduser.get("userId");
+if (userId != null) {
+  usrlocalID = userId
+}
+
+
+  // get post one load page
+ function getuser() {
+    fetch(`https://tarmeezacademy.com/api/v1/users/${usrlocalID}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // add to div posts
+        usrlocal = data.data 
+        
+
+        // info user
+
+// img
+let profile_image = document.getElementsByClassName("user-img")
+profile_image[0].src = usrlocal.profile_image;
+// username
+let usernameProfile = document.getElementsByClassName("username-profile")
+usernameProfile[0].innerHTML = usrlocal.username;
+// name
+let nameProfile = document.getElementsByClassName("name-profile")
+nameProfile[0].innerHTML = usrlocal.name;
+// email
+let emailProfile = document.getElementsByClassName("email-profile")
+emailProfile[0].innerHTML = usrlocal.email;
+// posts_count
+let posts_count = document.getElementsByClassName("posts_count")
+posts_count[0].innerHTML = usrlocal.posts_count;
+// comments_count
+let comments_count = document.getElementsByClassName("comments_count")
+comments_count[0].innerHTML = usrlocal.comments_count;
+// info user \\
+
+
+      })
+    }
+    
+    getuser() 
+    
+
+
+
 
 // get post one load page
-function getPosts(currentPage) {
-  fetch(`https://tarmeezacademy.com/api/v1/posts?limit=5&page=${currentPage}`)
+function getPosts() {
+  fetch(`https://tarmeezacademy.com/api/v1/users/${userId}/posts`)
     .then((response) => {
       return response.json();
     })
     .then((response) => {
-      lastPage = response.meta.last_page;
       // add to div posts
       let posts = document.getElementsByClassName("posts");
 
@@ -52,7 +99,7 @@ function getPosts(currentPage) {
             <div class="post mt-4" >
                 <div class="card text-center ">
                     <div class="card-header align-items-center d-flex justify-content-between" >
-                    <div onclick='clickedUser(${post.author.id})'><img class="imgProfile" src="${post.image}">
+                    <div onclick='clickedPost(${post.id})'><img class="imgProfile" src="${post.image}">
                           <span>${post.author.username}</span>
                     </div>
                         
@@ -87,35 +134,7 @@ function getPosts(currentPage) {
     });
 }
 
-window.addEventListener("DOMContentLoaded", getPosts);
-// get post one load page \\
-
-// get post auto
-let once = false;
-window.addEventListener("scroll", () => {
-  let postDiv = document.querySelector("footer");
-  let offsetTop = postDiv.offsetTop - 900;
-  // cheak width befor call autoPost
-  if (window.screen.width > 1124) {
-    offsetTop = postDiv.offsetTop - 1400;
-  }
-  // cheak Condition
-  if (offsetTop <= window.scrollY && !once) {
-    if (currentPage < lastPage) {
-      // infinity get scroll
-      getPosts(currentPage++);
-    }
-    console.log(currentPage, lastPage);
-    once = true;
-    console.log("ok");
-
-    // stop get tow second
-    setTimeout(() => {
-      once = false;
-    }, 2000);
-  }
-});
-// get post auto \\
+window.addEventListener("DOMContentLoaded",getPosts)
 
 // creat Post
 async function creatPostModal(edit,postId) {
@@ -181,12 +200,6 @@ function clickedPost(postId) {
 }
 // clicked post \\
 
-// clicked user profile
-function clickedUser(postId) {
-  window.location = `./profile.html?userId=${postId}`;
-}
-//  clicked user profile \\
-
 // Edit Post
 
 function EditPost(informationPost, isCreate) {
@@ -232,19 +245,15 @@ function btneditpost() {
 
 // btn delete post view or no 
 
-let urlDELETPOST = ""
-
-
+let urlDELETPOST =""
 function deletePost(informationPost) {
  
     
     
     post = JSON.parse(decodeURIComponent(informationPost));
     console.log(post);
- 
     
   let postId = post.id;
-  
   urlDELETPOST = `https://tarmeezacademy.com/api/v1/posts/${postId}`
 }
 
